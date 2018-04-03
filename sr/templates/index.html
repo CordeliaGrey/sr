@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>超分辨率</title>
+
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/easy-upload.css">
+
+
+    <style>
+        html, body {
+            margin: 0;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container-fluid" id="parent">
+        <div class="panel">
+            <div class="panel-heading"><h2>图像超分辨率</h2></div>
+            <div class="panel-heading">请选择需要放大的图片</div>
+            <div id="easyContainer"></div>
+        </div>
+    </div>
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel">
+            <div class="panel-heading"><h4>超分辨率结果为：</h4></div>
+            <img id="processed-image" src="#" style="display: none;">
+            <div class="panel-heading"><label>PSNR：</label> <label id = "PSNR"></label></div>
+            <div class="panel-heading"><label>SSIM：</label> <label id = "SSIM"></label></div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="/static/vendor/jquery-1.12.4.min.js"></script>
+<script src="/static/vendor/jquery.cookie-1.4.1.min.js"></script>
+<script src="/static/easyUpload.js"></script>
+<script src="/static/index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,70 @@
+# coding: utf-8
+
+from __future__ import print_function, absolute_import, division
+
+
+from django.shortcuts import render
+from django.http.response import HttpResponse
+
+
+from website.settings import BASE_DIR
+from sr.algorithm.sr_algo import SuperResolutioner
+
+import filetype
+import os
+import json
+
+
+
+# Create your views here.
+
+print("initializing super resolutioner.....")
+sr = SuperResolutioner('cpu')
+print("super resolutioner has initialized......")
+
+
+def get_index(request):
+    return render(request, "index.html")
+
+
+def on_file_upload(request):
+    ret = {}
+    if len(request.FILES) == 0:
+        return
+    upload_file = request.FILES.get('file', None)
+    if upload_file is None:
+        return
+    upload_file_name = upload_file.name
+    file_handle = upload_file.file
+    file_binary = file_handle.read()
+    with open("{}/temp/temp.jpg".format(BASE_DIR), 'wb') as f:
+        f.write(file_binary)
+    print("to do super resolution.....")
+    sr.proc("{}/temp/temp.jpg".format(BASE_DIR))
+    print("super resolution has is_finished")
+    #os.remove("{}/temp/temp.jpg".format(BASE_DIR))
+    filekind = filetype.guess("{}/temp/temp.jpg".format(BASE_DIR))
+    if filekind is None:
+	return
+
+    ret['code'] = 200
+    return HttpResponse(json.dumps(ret), content_type='application/json')
+
+
+def is_finished(request):
+    ret = {}
+    ret['code'] = 200
+    ret['sr_status'] = sr.IsFinished()
+    if sr.IsFinished():
+        ret['processed_filename'] = sr.GetSavedFilename()
+    return HttpResponse(json.dumps(ret), content_type='application/json')
+
+def on_query_processed_image(request):
+    processed_filename = request.GET['processed_image_filename']
+    ret = {}
+    ret['processed_image_path'] = r"/static/processed/{}".format(processed_filename)
+    return HttpResponse(json.dumps(ret), content_type='application/json')
+
+
+
+
